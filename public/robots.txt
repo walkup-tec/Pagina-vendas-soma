@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Adicione o sitemap quando a URL final estiver definida, por exemplo:
+# Sitemap: https://www.seu-dominio.com/sitemap.xml
+

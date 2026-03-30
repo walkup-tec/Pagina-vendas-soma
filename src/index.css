@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 35% 6%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 28% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 28% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Paleta SOMA: azul #2775e5, rosa #de074f */
+    --primary: 219 79% 53%;           /* #2775e5 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 337 96% 45%;         /* #de074f */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 28% 16%;
+    --muted-foreground: 0 0% 80%;
+
+    --accent: 337 96% 50%;            /* botão destacado no rosa SOMA */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 240 28% 25%;
+    --input: 240 28% 25%;
+    --ring: 219 79% 53%;
+
+    --radius: 0.75rem;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Poppins", sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, #2775e5, #de074f);
+  }
+
+  /* Botão flutuante - efeito wave/pulse nas cores SOMA */
+  @keyframes somaFloatingWave {
+    0% {
+      box-shadow: 0 0 0 0 hsl(var(--accent) / 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 14px hsl(var(--accent) / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--accent) / 0);
+    }
+  }
+  .floating-cta-wave-soma {
+    animation: somaFloatingWave 2.3s ease-out infinite;
+  }
+
+  #simbolo-linha {
+    fill: none;
+    stroke-dasharray: 644.1 644.1;
+    animation: simboloRun 6s linear 1 forwards;
+    stroke-width: 10;
+  }
+  @keyframes simboloRun {
+    from {
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dashoffset: -1288.2;
+    }
+  }
+
+  #letraS,
+  #letraO,
+  #letraM,
+  #letraA {
+    fill: none;
+    stroke: url(#gradStroke);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 1800;
+    stroke-dashoffset: 1800;
+    animation: desenharM 15s ease forwards;
+  }
+  @keyframes desenharM {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+}
