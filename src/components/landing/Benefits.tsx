@@ -22,19 +22,15 @@ const benefits = [
   },
 ];
 
-interface BenefitsProps {
-  onOpenSimulacao: () => void;
-}
-
-const Benefits = ({ onOpenSimulacao }: BenefitsProps) => {
-  const handleOpenSimulacao = () => {
+const Benefits = () => {
+  const handleStartJornada = () => {
     trackMetaEvent("Lead", {
       source: META_EVENT_PLACEMENTS.BENEFITS_MOBILE_CARD,
     });
     trackMetaCustomEvent(META_CUSTOM_EVENTS.SIMULATION_STARTED, {
       source: META_EVENT_PLACEMENTS.BENEFITS_MOBILE_CARD,
     });
-    onOpenSimulacao();
+    document.getElementById("jornada-clt")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -66,10 +62,10 @@ const Benefits = ({ onOpenSimulacao }: BenefitsProps) => {
             </div>
             <button
               type="button"
-              onClick={handleOpenSimulacao}
+              onClick={handleStartJornada}
               className="w-full mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-bold text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors"
             >
-              De quanto você precisa?
+              Quero saber se tenho crédito
             </button>
           </div>
           <div className="flex justify-center pt-8">

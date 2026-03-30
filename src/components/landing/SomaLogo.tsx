@@ -24,7 +24,7 @@ const SomaLogo = () => {
       ref={svgRef}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -50 1200 350"
-      className="block h-[78px] w-[329px] md:h-[85px] md:w-[338px]"
+      className="block mx-auto h-[78px] w-[329px] md:h-[85px] md:w-[338px]"
       aria-label="SOMA Crédito"
     >
       <defs>

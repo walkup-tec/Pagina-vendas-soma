@@ -43,6 +43,12 @@
     font-family: "Poppins", sans-serif;
   }
 
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -56,17 +62,89 @@
   /* Botão flutuante - efeito wave/pulse nas cores SOMA */
   @keyframes somaFloatingWave {
     0% {
-      box-shadow: 0 0 0 0 hsl(var(--accent) / 0.7);
+      box-shadow:
+        0 0 0 0 hsl(var(--accent) / 0.82),
+        0 10px 28px hsl(var(--accent) / 0.42);
     }
     70% {
-      box-shadow: 0 0 0 14px hsl(var(--accent) / 0);
+      box-shadow:
+        0 0 0 22px hsl(var(--accent) / 0),
+        0 16px 34px hsl(var(--accent) / 0.2);
     }
     100% {
-      box-shadow: 0 0 0 0 hsl(var(--accent) / 0);
+      box-shadow:
+        0 0 0 0 hsl(var(--accent) / 0),
+        0 8px 22px hsl(var(--accent) / 0.22);
     }
   }
   .floating-cta-wave-soma {
-    animation: somaFloatingWave 2.3s ease-out infinite;
+    animation: somaFloatingWave 1.9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @keyframes whatsappWave {
+    0% {
+      box-shadow: 0 0 0 0 rgb(37 211 102 / 0.65);
+    }
+    70% {
+      box-shadow: 0 0 0 14px rgb(37 211 102 / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(37 211 102 / 0);
+    }
+  }
+  .floating-cta-wave-whatsapp {
+    animation: whatsappWave 2.3s ease-out infinite;
+  }
+
+  @keyframes journeyStepEnter {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.995);
+    }
+    28% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    48% {
+      opacity: 0.92;
+      transform: translateY(-4px) scale(0.998);
+    }
+    68% {
+      opacity: 0.94;
+      transform: translateY(3px) scale(0.999);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .journey-step-enter {
+    animation: journeyStepEnter 506ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  @keyframes nudgeDoubleZoom {
+    0%,
+    8%,
+    100% {
+      transform: scale(1);
+    }
+    12% {
+      transform: scale(1.03);
+    }
+    16% {
+      transform: scale(1);
+    }
+    22% {
+      transform: scale(1.025);
+    }
+    26% {
+      transform: scale(1);
+    }
+  }
+  .nudge-double-zoom {
+    animation: nudgeDoubleZoom 8s ease-in-out infinite;
+    transform-origin: center;
   }
 
   #simbolo-linha {

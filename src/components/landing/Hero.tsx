@@ -1,160 +1,166 @@
-import { motion } from "framer-motion";
-import { WHATSAPP_URL } from "@/config/whatsapp";
-import { trackMetaCustomEvent, trackMetaEvent, trackWhatsappCtaClick } from "@/lib/metaPixel";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { trackMetaCustomEvent, trackMetaEvent } from "@/lib/metaPixel";
 import { META_CUSTOM_EVENTS, META_EVENT_PLACEMENTS } from "@/lib/metaPixelEvents";
 import SomaLogo from "./SomaLogo";
+import JornadaClt from "./JornadaClt";
 
-interface HeroProps {
-  onOpenSimulacao: () => void;
-}
+const highlightTags = [
+  "As melhores condições",
+  "Direto em folha",
+  "Pré-aprova negativados",
+  "Análise 100% online",
+] as const;
 
-const Hero = ({ onOpenSimulacao }: HeroProps) => {
-  const handleWhatsappClick = () => {
-    trackWhatsappCtaClick(META_EVENT_PLACEMENTS.HERO_PRIMARY_CTA);
-  };
+const Hero = () => {
+  const [started, setStarted] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
 
-  const handleOpenSimulacao = () => {
+  const handleStart = () => {
     trackMetaEvent("Lead", {
       source: META_EVENT_PLACEMENTS.HERO_SIMULACAO_CARD,
     });
     trackMetaCustomEvent(META_CUSTOM_EVENTS.SIMULATION_STARTED, {
       source: META_EVENT_PLACEMENTS.HERO_SIMULACAO_CARD,
     });
-    onOpenSimulacao();
+    setStarted(true);
   };
+
+  useEffect(() => {
+    if (started) {
+      setShowNudge(false);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setShowNudge(true);
+    }, 8000);
+    return () => window.clearTimeout(timer);
+  }, [started]);
 
   return (
     <section
       id="inicio"
-      className="pt-8 pb-16 bg-gradient-to-b from-primary/10 via-background to-background"
+      className="flex-1 flex flex-col py-6 bg-gradient-to-b from-primary/10 via-background to-background"
     >
-      <div className="container grid gap-10 md:grid-cols-2 items-center">
-        <div className="space-y-6 flex flex-col items-start">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            className="-ml-[3%]"
-          >
-            <SomaLogo />
-          </motion.div>
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full bg-secondary/10 border border-secondary/40 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-secondary"
-          >
-            Crédito rápido e fácil
-          </motion.button>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-4xl md:text-4xl lg:text-5xl font-display font-extrabold leading-tight md:leading-[2]"
-          >
-            Consignado do
-            <span className="block mt-0.5 md:mt-2 text-inherit">Trabalhador</span>
-            <span className="block text-secondary mt-1">
-              com parcelas na folha
-            </span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-base md:text-lg text-muted-foreground max-w-xl"
-          >
-            Crédito exclusivo para quem tem carteira assinada (CLT), com juros
-            mais baixos e parcelas descontadas direto no contracheque.
-          </motion.p>
-          <motion.ul
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="space-y-2 text-xs sm:text-sm md:text-base text-foreground/90"
-          >
-            <li className="flex items-center gap-2">
-              <svg className="shrink-0 w-5 h-5 text-secondary" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-              </svg>
-              Pré-aprovação para negativados
-            </li>
-            <li className="flex items-center gap-2">
-              <svg className="shrink-0 w-5 h-5 text-secondary" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-              </svg>
-              Pagamento direto na folha de pagamento, sem boletos
-            </li>
-            <li className="flex items-center gap-2">
-              <svg className="shrink-0 w-5 h-5 text-secondary" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-              </svg>
-              As melhores taxas e condições para o seu empréstimo
-            </li>
-          </motion.ul>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="flex flex-col sm:flex-row gap-3 pt-3"
-          >
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleWhatsappClick}
+      <div className="w-full flex-1 flex flex-col items-center justify-center px-4">
+        <AnimatePresence mode="wait">
+          {!started ? (
+            <motion.div
+              key="hero-intro"
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              className="w-full flex flex-col items-center justify-center text-center gap-4 px-2"
             >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.35 }}
+              className="w-full flex justify-center relative left-[55px]"
+              >
+                <div>
+                  <SomaLogo />
+                </div>
+              </motion.div>
+
+              <motion.button
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.05 }}
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full bg-secondary/10 border border-secondary/40 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-secondary"
+              >
+                Crédito exclusivo para CLT
+              </motion.button>
+
+              <h1 className="text-[2.6rem] md:text-[3rem] font-display font-extrabold leading-tight">
+                Consignado do Trabalhador
+              </h1>
+
+              <p className="text-sm md:text-base text-muted-foreground max-w-xl">
+                Responda a poucas perguntas e chame no WhatsApp para fazer a simulação.
+              </p>
+
+              <ul className="pt-2 w-full grid grid-cols-2 gap-x-10 gap-y-1 items-center">
+                {(
+                  [
+                    // Linha 1 (igual imagem)
+                    { side: "left", label: highlightTags[3] }, // Análise 100% online
+                    { side: "right", label: highlightTags[0] }, // As melhores condições
+                    // Linha 2 (igual imagem)
+                    { side: "left", label: highlightTags[2] }, // Pré-aprova negativados
+                    { side: "right", label: highlightTags[1] }, // Direto em folha
+                  ] as const
+                ).map(({ side, label }, idx) => {
+                  const isLeft = side === "left";
+                  return (
+                    <motion.li
+                      key={`${side}-${label}`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25, delay: idx * 0.03 }}
+                      className={[
+                        "flex items-center gap-3 text-xs md:text-sm text-foreground/85",
+                        isLeft ? "justify-end" : "justify-start",
+                      ].join(" ")}
+                    >
+                      {isLeft ? (
+                        <>
+                          <span className="whitespace-nowrap">{label}</span>
+                          <i
+                            className="bi bi-check2-circle text-secondary text-lg shrink-0"
+                            aria-hidden
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <i
+                            className="bi bi-check2-circle text-secondary text-lg shrink-0"
+                            aria-hidden
+                          />
+                          <span className="whitespace-nowrap">{label}</span>
+                        </>
+                      )}
+                    </motion.li>
+                  );
+                })}
+              </ul>
+
               <button
                 type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors"
+                onClick={handleStart}
+                className="w-full max-w-md mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm md:text-base font-bold text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors floating-cta-wave-soma"
               >
-                Contrate pelo WhatsApp
-                <i className="bi bi-whatsapp text-lg" />
+                Começar minha análise
               </button>
-            </a>
-          </motion.div>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="hidden md:block"
-        >
-          <div className="rounded-3xl bg-card border border-border p-6 shadow-md space-y-4">
-            <h3 className="text-lg font-display font-semibold">
-              Simulação de Crédito
-            </h3>
-            <p className="text-xs text-muted-foreground">
-              Cliente CLT com salário de R$ 3.500,00
-            </p>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Exemplo de valor solicitado</span>
-                <span className="font-semibold text-foreground">
-                  R$ 3.000,00
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Parcela aproximada</span>
-                <span className="font-semibold text-foreground">
-                  R$ 189,90 / mês
-                </span>
-              </div>
-              <p className="text-[11px] text-muted-foreground">
-                *Simulação hipotética apenas para ilustrar. O valor da parcela
-                varia conforme taxa, prazo e margem disponível.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleOpenSimulacao}
-              className="w-full mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-bold text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors"
+
+              {showNudge && (
+                <motion.p
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="text-xs md:text-sm text-secondary font-semibold nudge-double-zoom"
+                >
+                  Vamos lá! Após análise em poucos minutos o dinheiro está na conta.
+                </motion.p>
+              )}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="hero-jornada"
+              initial={{ opacity: 0, y: 12, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.99 }}
+              transition={{ duration: 0.25 }}
+              className="w-full flex flex-col items-center justify-center px-2"
             >
-              De quanto você precisa?
-            </button>
-          </div>
-        </motion.div>
+              <div className="w-full max-w-md">
+                <JornadaClt onExit={() => setStarted(false)} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
